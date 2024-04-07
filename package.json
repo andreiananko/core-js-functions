@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/rolling-scopes-school/core-js-objects/issues"
   },
-  "homepage": "https://github.com/rolling-scopes-school/core-js-objects#readme"
+  "homepage": "https://github.com/rolling-scopes-school/core-js-objects#readme",
+  "directories": {
+    "test": "test"
+  }
 }
