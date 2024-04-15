@@ -72,7 +72,7 @@ function getArgumentsCount(funcs) {
  *
  */
 function getPowerFunction(exponent) {
-  return function (x) {
+  return function calculatePower(x) {
     return x ** exponent;
   };
 }
@@ -91,7 +91,7 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...coefficients) {
-  return function (x) {
+  return function polynomFunction(x) {
     if (coefficients.length === 0) return null;
     let y = 0;
     for (let i = coefficients.length - 1; i >= 0; i -= 1) {
@@ -117,7 +117,7 @@ function getPolynom(...coefficients) {
  */
 function memoize(func) {
   const cache = {};
-  return function (...args) {
+  return function memoizedFunction(...args) {
     const key = JSON.stringify(args);
     if (cache[key] === undefined) {
       cache[key] = func(...args);
@@ -142,18 +142,19 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return function () {
+  return function retryFunction() {
     let attempt = 0;
     while (attempt < attempts) {
       try {
         return func();
       } catch (error) {
+        attempt += 1;
         if (attempt === attempts) {
-          attempt += 1;
-          throw error; // If attempts exhausted, rethrow the error
+          throw error;
         }
       }
     }
+    return null; // Return null if func() never succeeds after all attempts
   };
 }
 
@@ -181,7 +182,7 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-  return function (...args) {
+  return function logWrapper(...args) {
     const functionName = func.name || '<anonymous>';
     const argString = args.map((arg) => JSON.stringify(arg)).join(', ');
 
@@ -192,7 +193,6 @@ function logger(func, logFunc) {
     return result;
   };
 }
-
 
 /**
  * Return the function with partial applied arguments
@@ -208,7 +208,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn, ...args1) {
-  return function (...args2) {
+  return function partialFunction(...args2) {
     return fn(...args1, ...args2);
   };
 }
@@ -233,7 +233,7 @@ function partialUsingArguments(fn, ...args1) {
 function getIdGeneratorFunction(startFrom) {
   let nextId = startFrom;
 
-  return function () {
+  return function generateId() {
     const currentId = nextId;
     nextId += 1;
     return currentId;
