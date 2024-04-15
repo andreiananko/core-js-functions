@@ -33,7 +33,12 @@ function getCurrentFunctionName() {
  *
  */
 function getFunctionBody(func) {
-  return func.toString();
+  const bodyMatch = func.toString().match(/\{([\s\S]*)\}/);
+
+  if (bodyMatch) {
+    return bodyMatch[1].trim();
+  }
+  return '';
 }
 
 /**
